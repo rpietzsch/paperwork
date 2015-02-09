@@ -17,6 +17,11 @@ RUN a2enmod rewrite
 # Enable php mcrypt module
 RUN php5enmod mcrypt
 
+RUN echo "#!/bin/bash" > /start.sh && \
+    echo "cd /app && php artisan migrate --force && cd -" >> /start.sh && \
+    echo "source /etc/apache2/envvars" >> /start.sh && \
+    echo "exec apache2 -D FOREGROUND" >> /start.sh
+
 # Configure /app folder
 RUN mkdir -p /app && rm -fr /var/www/html
 
