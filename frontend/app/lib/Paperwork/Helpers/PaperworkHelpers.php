@@ -1,6 +1,8 @@
 <?php
 
-namespace Paperwork;
+namespace Paperwork\Helpers;
+
+use Illuminate\Config\Repository;
 
 class PaperworkHelpers {
 
@@ -86,6 +88,23 @@ class PaperworkHelpers {
 		return json_encode($data);
 	}
 
+	// Let's abstract the UUID generation process, so we can easily switch levels or even libraries
+	public function generateUuid($info) {
+		// $info isn't yet used, but could be in future
+		return \Uuid::generate(4);
+	}
+
+	public function extendAttributes($attributes, $extensions, $info) {
+		foreach($extensions as $extension) {
+			switch($extension) {
+				case 'uuid':
+					$attributes['uuid'] = PaperworkHelpers::generateUuid($info);
+				break;
+			}
+		}
+		return $attributes;
+	}
+
 	public function cleanupMatches($string, $matches, $key = 0) {
 		foreach($matches as $match) {
 			$pos = strpos($string, $match[$key]);
@@ -96,6 +115,11 @@ class PaperworkHelpers {
 
 		return $string;
 	}
+    
+    public function isLdap()
+    {
+        return strpos(\Config::get('auth.driver'),'ldap') !== false;
+    }
 }
 
 ?>

@@ -34,7 +34,7 @@ First of all, you need to clone this project to your machine.
 After that, make sure that you have PHP >= 5.4.
 
 Currently, we don't ship any prebuilt versions, so you need to build the app yourself.
-To do this you must install [composer](http://getcomposer.com) and npm (nodejs package manager,
+To do this you must install [composer](http://getcomposer.org) and npm (nodejs package manager,
 on how to install npm read [here](http://blog.npmjs.org/post/85484771375/how-to-install-npm))
 
 Composer is needed to install third-party application components,
@@ -122,7 +122,7 @@ To run the migrations (once):
 
 ## Upgrading
 
-Upgrading to the latest GIT version of Paperwork is fairly easy. Update your local repository running `git pull`, then `cd` into the `frontend/` directory and run `php artisan migrate`. In most cases this should work. If you're experiencing issues, you might need to clear the database completely and re-run the initial installation.
+Upgrading to the latest GIT version of Paperwork is fairly easy. Update your local repository running `git pull`, then `cd` into the `frontend/` directory, run `composer dump-autoload` to update the autoloader and `php artisan migrate`. In most cases this should work. If you're experiencing issues, you might need to clear the database completely and re-run the initial installation.
 
 ## API documentation
 
@@ -168,3 +168,14 @@ Maybe. Check out more detailed information about the features we are currently w
 
 In addition to contributing, make sure to shoot us an e-mail at [paperwork-dev@googlegroups.com](mailto:paperwork-dev@googlegroups.com), or hop on the [gitter group](https://gitter.im/twostairs/paperwork) and inform us about your interest in joining the team. We will then make sure to give you the required access to our [GitHub Issues](https://github.com/twostairs/paperwork/issues) as well.
 
+## Enabling LDAP
+ Follow these steps:
+ 1. Enable the PHP LDAP module
+ 2. Edit app/config/ldap.php as appropriate for your environment
+ 3. change 'driver' => 'eloquent' in app/config/auth.php to 'driver' => 'eloquentldap'
+ 
+ You can enable/disable automatic registration in app/config/ldap.php. You can also set the ui language you would like to use
+ for the automatic registration in this file.
+ 
+ For more information and more configuration options, see http://adldap.sourceforge.net/ .
+  The config in app/config/ldap.php is passed directly to adldap, so any configuration will work as defined by adldap.
